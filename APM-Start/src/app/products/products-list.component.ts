@@ -7,6 +7,11 @@ import { Component } from '@angular/core';
 })
 export class ProductListComponent {
   pageTitle: string = 'Product List';
+  imageWidth: number = 50;
+  imageMargin: number = 2;
+  showImage: boolean = false;
+  listFilter: string = 'cart';
+
   products: any[] = [{
     "productId": 1,
     "productName": "Leaf Rake",
@@ -37,5 +42,11 @@ export class ProductListComponent {
     "starRating": 4.8,
     "imageUrl": "assets/images/hammer.png"
   },] ;
+
+
+  toggleImage(): void {
+    this.showImage = !this.showImage;
+
+  }
 
 }
