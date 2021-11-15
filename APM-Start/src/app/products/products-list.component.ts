@@ -1,18 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { IProduct } from './product';
 
 @Component({
   selector: 'pm-products',
   templateUrl: './products-list.component.html',
+  styleUrls: ['./product-list.component.css']
  
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
+  
   pageTitle: string = 'Product List';
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  listFilter: string = 'cart';
 
-  products: any[] = [{
+
+  private _listFilter: string = '';
+  
+  get listFilter():string {
+    return this._listFilter;
+  }
+
+  set listFilter(value: string) {
+    this._listFilter = value;
+
+    this.filteredProducts = this.performFilter(value);
+
+  }
+
+  filteredProducts: IProduct[] = [];
+  products: IProduct[] = [{
     "productId": 1,
     "productName": "Leaf Rake",
     "productCode": "GDN-0011",
@@ -43,10 +60,21 @@ export class ProductListComponent {
     "imageUrl": "assets/images/hammer.png"
   },] ;
 
-
+  
   toggleImage(): void {
     this.showImage = !this.showImage;
 
+  }
+
+  performFilter(value: string): IProduct[] {
+    value = value.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) => product.productName.toLowerCase().includes(value) ); 
+    
+  }
+
+
+  ngOnInit(): void{
+    this._listFilter = 'cart'
   }
 
 }
